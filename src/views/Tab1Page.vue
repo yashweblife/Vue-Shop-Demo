@@ -28,7 +28,7 @@ export default defineComponent({
   name: 'Tab1Page',
   components: { IonHeader, IonToolbar, IonTitle, IonContent, IonPage, IonList, IonChip, IonLabel, ProductCardVue },
   data() {
-    return ({ catagories: [], counter: 0, frontPageList: [], opneCatagory:"All" })
+    return ({ catagories: [], counter: 0, frontPageList: [], opneCatagory:"All Products" })
   },
   setup(){
     const router = useRoute()
@@ -44,7 +44,7 @@ export default defineComponent({
             this.catagories.push(final)
           })
         })
-      fetch('https://dummyjson.com/products?limit=10')
+      fetch('https://dummyjson.com/products?limit=30')
         .then(res => res.json())
         .then((data: any) => {
           const final = data.products.map((val: any) => val)
@@ -76,11 +76,12 @@ export default defineComponent({
 <style scoped>
 .products {
   padding:3em;
+  padding-top: 1em;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-gap: 1em;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  grid-gap: 3em;
 }
 h1{
-  padding:3em;
+  padding:0em 3em;
 }
 </style>

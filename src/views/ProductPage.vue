@@ -14,11 +14,11 @@
             <div class="product-info">
                 <div class="images">
                     <div class="image">
-                        <ion-button @click="imageBackward" fill="clear">
+                        <ion-button @click="imageBackward" fill="clear" class="left">
                             <ion-icon :icon="chevronBackOutline"></ion-icon>
                         </ion-button>
                         <img :src="info.images[viewImage]" alt="not">
-                        <ion-button @click="imageForward" fill="clear">
+                        <ion-button @click="imageForward" fill="clear" class="right">
                             <ion-icon :icon="chevronForwardOutline"></ion-icon>
                         </ion-button>
                     </div>
@@ -53,7 +53,7 @@
                     <h2>Similar Products</h2>
                     <div class="similarProducts">
                         <ProductCardVue v-for="item in similarProducts" :key="item.id" :info="item"
-                            @click='navigateTo("product/"+item.id)' />
+                            @click='navigateTo("product/" + item.id)' />
                     </div>
                 </section>
             </div>
@@ -72,7 +72,7 @@ import ProductCardVue from '@/components/ProductCardVue.vue'
 export default defineComponent({
     name: "ProductPage",
     components: {
-        IonPage, IonHeader, IonContent, IonIcon, IonButton, ProductCardVue, IonToolbar    
+        IonPage, IonHeader, IonContent, IonIcon, IonButton, ProductCardVue, IonToolbar
     },
     data() {
         return {
@@ -125,24 +125,27 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-ion-toolbar{
-    div{
-        display:flex;
+ion-toolbar {
+    div {
+        display: flex;
         align-items: center;
-        >h3{
-            margin:0 1em;
+
+        >h3 {
+            margin: 0 1em;
         }
-        >h2{
-            &::before{
-            }
+
+        >h2 {
+            &::before {}
         }
     }
 }
+
 .product-info {
     display: grid;
     grid-template-columns: 1fr 1fr;
     padding: 0 3em;
     margin-top: 3em;
+
     >.info {
         padding: 1em;
 
@@ -153,6 +156,7 @@ ion-toolbar{
         h3 {
             display: flex;
             align-items: center;
+
             &.mark {
                 >span {
                     text-decoration: line-through;
@@ -187,7 +191,7 @@ ion-toolbar{
         >img {
             object-fit: cover;
             border-radius: 3em;
-            box-shadow: 0 0 2em 0 rgba(0,0,0,0.5);
+            box-shadow: 0 0 2em 0 rgba(0, 0, 0, 0.5);
         }
 
     }
@@ -208,5 +212,98 @@ section {
 
     }
 
+}
+
+@media screen and (max-width:800px) {
+    .product-info {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 0;
+
+        >.info {
+            padding: 1em;
+
+            h1 {
+                font-size: 3em;
+            }
+
+            h3 {
+                display: flex;
+                align-items: center;
+
+                &.mark {
+                    >span {
+                        text-decoration: line-through;
+
+                    }
+                }
+            }
+
+            p {
+                span {
+                    label {
+                        padding-left: 1em;
+                    }
+                }
+            }
+        }
+    }
+
+    .images {
+        overflow: hidden;
+        width: 100%;
+
+        >.image {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            padding: 1em;
+            aspect-ratio: 1/1;
+            position: relative;
+
+            >ion-button {
+                height: 50%;
+                padding: 0;
+                position: absolute;
+
+                &.left {
+                    left: 0;
+                }
+
+                &.right {
+                    right: 0;
+                }
+            }
+
+            >img {
+                object-fit: cover;
+                border-radius: 3em;
+                box-shadow: 0 0 2em 0 rgba(0, 0, 0, 0.5);
+            }
+
+        }
+    }
+
+    section {
+        margin-top: 3em;
+        h2{
+            font-size: 1em;
+        }
+        position: relative;
+        .similarProducts {
+            display: flex;
+            align-items: center;
+            justify-content: space-evenly;
+            position: absolute;
+            overflow-x: auto;
+            >div {
+                margin: 1em;
+                min-width: 150px;
+            }
+
+        }
+
+    }
 }
 </style>

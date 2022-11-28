@@ -81,7 +81,20 @@ export default defineComponent({
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   grid-gap: 3em;
 }
+@media screen and (max-width:800px){
+  ion-list{
+    display:none;
+  }
+  .products {
+  padding:3em;
+  padding-top: 1em;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 3em;
+} 
+}
 h1{
-  padding:0em 3em;
+  padding:1em;
+  text-align: center;
 }
 </style>

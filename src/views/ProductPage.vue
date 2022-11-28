@@ -1,7 +1,14 @@
 <template>
     <ion-page>
         <ion-header>
-            <h1>{{ info.title }}</h1>
+            <ion-toolbar>
+                <div>
+                    <h3 @click="navigateTo('tabs/tab1')">Vue Shop</h3>
+                    <h2>
+                        {{ info.title }}
+                    </h2>
+                </div>
+            </ion-toolbar>
         </ion-header>
         <ion-content>
             <div class="product-info">
@@ -22,7 +29,7 @@
 
                     <h3 v-if="acceptDiscount" class="mark"><span>${{ info.price }}</span>
                         <ion-icon :icon="arrowForwardOutline"></ion-icon>
-                        {{ Math.round(info.price - (info.discountPercentage / 100) * info.price) }}
+                        ${{ Math.round(info.price - (info.discountPercentage / 100) * info.price) }}
                     </h3>
                     <h3 v-if="!acceptDiscount">${{ info.price }}</h3>
                     <p>
@@ -46,7 +53,7 @@
                     <h2>Similar Products</h2>
                     <div class="similarProducts">
                         <ProductCardVue v-for="item in similarProducts" :key="item.id" :info="item"
-                            @click='navigateTo(item.id)' />
+                            @click='navigateTo("product/"+item.id)' />
                     </div>
                 </section>
             </div>
@@ -59,13 +66,13 @@ import { defineComponent } from 'vue';
 import { useRoute } from 'vue-router';
 import { chevronBackOutline, chevronForwardOutline, arrowForwardOutline } from 'ionicons/icons'
 import {
-    IonPage, IonHeader, IonContent, IonIcon, IonButton
+    IonPage, IonHeader, IonContent, IonIcon, IonButton, IonToolbar
 } from '@ionic/vue'
 import ProductCardVue from '@/components/ProductCardVue.vue'
 export default defineComponent({
     name: "ProductPage",
     components: {
-        IonPage, IonHeader, IonContent, IonIcon, IonButton, ProductCardVue
+        IonPage, IonHeader, IonContent, IonIcon, IonButton, ProductCardVue, IonToolbar    
     },
     data() {
         return {
@@ -98,7 +105,7 @@ export default defineComponent({
             this.acceptDiscount = !this.acceptDiscount
         },
         navigateTo(data: any) {
-            this.$router.push(`/product/${data}`)
+            this.$router.push(`/${data}`)
         }
     },
     created() {
@@ -118,12 +125,24 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+ion-toolbar{
+    div{
+        display:flex;
+        align-items: center;
+        >h3{
+            margin:0 1em;
+        }
+        >h2{
+            &::before{
+            }
+        }
+    }
+}
 .product-info {
     display: grid;
     grid-template-columns: 1fr 1fr;
     padding: 0 3em;
-    margin: auto 0;
-
+    margin-top: 3em;
     >.info {
         padding: 1em;
 
@@ -134,7 +153,6 @@ export default defineComponent({
         h3 {
             display: flex;
             align-items: center;
-            
             &.mark {
                 >span {
                     text-decoration: line-through;
@@ -155,19 +173,21 @@ export default defineComponent({
 
 .images {
     overflow: hidden;
+
     >.image {
         display: flex;
         align-items: center;
         width: 400px;
         aspect-ratio: 1/1;
-        
+
         >ion-button {
             height: 50%;
         }
-        
+
         >img {
             object-fit: cover;
             border-radius: 3em;
+            box-shadow: 0 0 2em 0 rgba(0,0,0,0.5);
         }
 
     }

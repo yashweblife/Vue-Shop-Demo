@@ -119,7 +119,7 @@ export default defineComponent({
     setup() {
         const route = useRoute()
         const { id } = route.params
-        return ({ id, chevronBackOutline, chevronForwardOutline, arrowForwardOutline })
+        return ({id, chevronBackOutline, chevronForwardOutline, arrowForwardOutline })
     }
 })
 </script>

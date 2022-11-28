@@ -17,25 +17,30 @@
                     </div>
                 </div>
                 <div class="info">
-                    <p>{{info.brand}}</p>
-                    <h1>{{info.title}}</h1>
-                    
-                    <h3 v-if="acceptDiscount" class="mark">${{info.price}}</h3>
-                    <h3 v-if="!acceptDiscount">${{info.price}}</h3>
+                    <p>{{ info.brand }}</p>
+                    <h1>{{ info.title }}</h1>
+
+                    <h3 v-if="acceptDiscount" class="mark"><span>${{ info.price }}</span>
+                        <ion-icon :icon="arrowForwardOutline"></ion-icon>
+                        {{ Math.round(info.price - (info.discountPercentage / 100) * info.price) }}
+                    </h3>
+                    <h3 v-if="!acceptDiscount">${{ info.price }}</h3>
                     <p>
                         <span>
                             <input @input="applyDiscount()" type="checkbox" name="discount">
-                            <label for="">Apply{{info.discountPercentage}}% off</label>
+                            <label for="">Apply{{ info.discountPercentage }}% off</label>
                         </span>
                     </p>
 
                     <nav>
-                        <ion-button>Buy for ${{acceptDiscount ? Math.round(info.price-(info.discountPercentage/info.price)*100) : info.price}}</ion-button>
+                        <ion-button>Buy for ${{ acceptDiscount ?
+                                Math.round(info.price - (info.discountPercentage / 100) * info.price) : info.price
+                        }}</ion-button>
                         <ion-button>Add to Cart</ion-button>
                     </nav>
-                    <p>{{info.description}}</p>
-                    <p>{{Math.round((info.rating/5)*100)}}% Positive Reviews</p>
-                    <p>Category: {{info.category}}</p>
+                    <p>{{ info.description }}</p>
+                    <p>{{ Math.round((info.rating / 5) * 100) }}% Positive Reviews</p>
+                    <p>Category: {{ info.category }}</p>
                 </div>
             </div>
         </ion-content>
@@ -45,7 +50,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { useRoute } from 'vue-router';
-import { chevronBackOutline, chevronForwardOutline } from 'ionicons/icons'
+import { chevronBackOutline, chevronForwardOutline, arrowForwardOutline } from 'ionicons/icons'
 import {
     IonPage, IonHeader, IonContent, IonIcon, IonButton
 } from '@ionic/vue'
@@ -56,19 +61,20 @@ export default defineComponent({
     },
     data() {
         return {
-            info: { title: "", images: [],brand:"",description:"",rating:0,category:"", price:0, discountPercentage:0}, viewImage:0,acceptDiscount:false
+            info: { title: "", images: [], brand: "", description: "", rating: 0, category: "", price: 0, discountPercentage: 0 }, viewImage: 0, acceptDiscount: false
         }
     },
-    methods:{
-        imageForward(){
-            if(this.viewImage >= this.info.images.length-1) return
-            this.viewImage+=1
+    methods: {
+        imageForward() {
+            if (this.viewImage >= this.info.images.length - 1) return
+            this.viewImage += 1
         },
-        imageBackward(){
-            if(this.viewImage <=0) return
-            this.viewImage-=1
+        imageBackward() {
+            if (this.viewImage <= 0) return
+            this.viewImage -= 1
         },
-        applyDiscount(){
+        applyDiscount() {
+
             this.acceptDiscount = !this.acceptDiscount
         }
     },
@@ -81,45 +87,57 @@ export default defineComponent({
     setup() {
         const route = useRoute()
         const { id } = route.params
-        return ({ id, chevronBackOutline, chevronForwardOutline })
+        return ({ id, chevronBackOutline, chevronForwardOutline, arrowForwardOutline })
     }
 })
 </script>
 
 <style lang="scss" scoped>
-.product-info{
-    display:grid;
+.product-info {
+    display: grid;
     grid-template-columns: 1fr 1fr;
-    >.info{
-        padding:1em;
-        h1{
+    padding: 0 3em;
+    margin: auto 0;
+
+    >.info {
+        padding: 1em;
+
+        h1 {
             font-size: 3em;
         }
-        h3{
-            &.mark{
-                text-decoration: line-through;
+
+        h3 {
+            &.mark {
+                >span {
+                    text-decoration: line-through;
+
+                }
             }
         }
-        p{
-            span{
-                label{
-                    padding-left:1em;
+
+        p {
+            span {
+                label {
+                    padding-left: 1em;
                 }
             }
         }
     }
 }
+
 .images {
     overflow: hidden;
-    >.image{
+
+    >.image {
         display: flex;
         align-items: center;
-        width:400px;
+        width: 400px;
         aspect-ratio: 1/1;
+
         >img {
             object-fit: cover;
         }
-        
+
     }
 }
 </style>

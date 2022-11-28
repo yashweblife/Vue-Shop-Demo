@@ -24,10 +24,11 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .card{  
-    box-shadow: 0 0 1em 0 rgba(0,0,0,0.9);
+    box-shadow: 0 0 2em 0 rgba(0,0,0,0.9), 0 0 3em 0 rgba(255,255,255,0.1);
     background-color: rgb(32,32,32);
     overflow: hidden;
     border-radius: 2em;
+    cursor: pointer;
     >.header{
         width:100%;
         img{
@@ -54,14 +55,17 @@ export default defineComponent({
             justify-content: center;
             width:4rem; 
             aspect-ratio: 2/1;
-            border-top-left-radius: 1em;
-            border-top-right-radius: 1em;
+            border-radius: 1em;
             box-shadow: 0 0 1em 0 rgba(0,0,0,0.6);
             background-color: rgb(32,32,32);
             &::before{
                 content:"$"
             }
         }
+    }
+    transition: 0.2s box-shadow;
+    &:hover{
+        box-shadow: 0 0 1em 0 rgba(68, 68, 68, 0.5);
     }
 }
 </style>

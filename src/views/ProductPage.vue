@@ -7,11 +7,11 @@
             <div class="product-info">
                 <div class="images">
                     <div class="image">
-                        <ion-button @click="imageBackward">
+                        <ion-button @click="imageBackward" fill="clear">
                             <ion-icon :icon="chevronBackOutline"></ion-icon>
                         </ion-button>
                         <img :src="info.images[viewImage]" alt="not">
-                        <ion-button @click="imageForward">
+                        <ion-button @click="imageForward" fill="clear">
                             <ion-icon :icon="chevronForwardOutline"></ion-icon>
                         </ion-button>
                     </div>
@@ -42,6 +42,13 @@
                     <p>{{ Math.round((info.rating / 5) * 100) }}% Positive Reviews</p>
                     <p>Category: {{ info.category }}</p>
                 </div>
+                <section>
+                    <h2>Similar Products</h2>
+                    <div class="similarProducts">
+                        <ProductCardVue v-for="item in similarProducts" :key="item.id" :info="item"
+                            @click='navigateTo(item.id)' />
+                    </div>
+                </section>
             </div>
         </ion-content>
     </ion-page>
@@ -54,14 +61,27 @@ import { chevronBackOutline, chevronForwardOutline, arrowForwardOutline } from '
 import {
     IonPage, IonHeader, IonContent, IonIcon, IonButton
 } from '@ionic/vue'
+import ProductCardVue from '@/components/ProductCardVue.vue'
 export default defineComponent({
     name: "ProductPage",
     components: {
-        IonPage, IonHeader, IonContent, IonIcon, IonButton
+        IonPage, IonHeader, IonContent, IonIcon, IonButton, ProductCardVue
     },
     data() {
         return {
-            info: { title: "", images: [], brand: "", description: "", rating: 0, category: "", price: 0, discountPercentage: 0 }, viewImage: 0, acceptDiscount: false
+            info: {
+                title: "",
+                images: [],
+                brand: "",
+                description: "",
+                rating: 0,
+                category: "",
+                price: 0,
+                discountPercentage: 0
+            },
+            viewImage: 0,
+            acceptDiscount: false,
+            similarProducts: []
         }
     },
     methods: {
@@ -76,12 +96,17 @@ export default defineComponent({
         applyDiscount() {
 
             this.acceptDiscount = !this.acceptDiscount
+        },
+        navigateTo(data: any) {
+            this.$router.push(`/product/${data}`)
         }
     },
     created() {
         fetch("https://dummyjson.com/products/" + this.id).then((res: Response) => res.json()).then((val: any) => {
             this.info = val;
-            console.log(val)
+            fetch("https://dummyjson.com/products/category/" + this.info.category).then((res: Response) => res.json()).then((similar: any) => {
+                this.similarProducts = similar.products
+            })
         })
     },
     setup() {
@@ -107,6 +132,9 @@ export default defineComponent({
         }
 
         h3 {
+            display: flex;
+            align-items: center;
+            
             &.mark {
                 >span {
                     text-decoration: line-through;
@@ -127,17 +155,38 @@ export default defineComponent({
 
 .images {
     overflow: hidden;
-
     >.image {
         display: flex;
         align-items: center;
         width: 400px;
         aspect-ratio: 1/1;
-
+        
+        >ion-button {
+            height: 50%;
+        }
+        
         >img {
             object-fit: cover;
+            border-radius: 3em;
         }
 
     }
+}
+
+section {
+    margin-top: 3em;
+    grid-column: 1/3;
+
+    .similarProducts {
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+
+        >div {
+            margin: 1em;
+        }
+
+    }
+
 }
 </style>

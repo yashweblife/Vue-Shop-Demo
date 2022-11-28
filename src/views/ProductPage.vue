@@ -95,6 +95,7 @@ export default defineComponent({
         imageForward() {
             if (this.viewImage >= this.info.images.length - 1) return
             this.viewImage += 1
+
         },
         imageBackward() {
             if (this.viewImage <= 0) return
@@ -132,10 +133,11 @@ ion-toolbar {
 
         >h3 {
             margin: 0 1em;
+            cursor: pointer;
         }
 
         >h2 {
-            &::before {}
+            text-align: right;
         }
     }
 }
@@ -280,8 +282,21 @@ section {
                 object-fit: cover;
                 border-radius: 3em;
                 box-shadow: 0 0 2em 0 rgba(0, 0, 0, 0.5);
+                &.moveLeft{
+                    animation:moveLeft 0.2s 1 ease;
+                }
             }
 
+        }
+    }
+    @keyframes moveLeft{
+        0%{
+            transform: translate(0);
+            opacity: 1;
+        }
+        100%{
+            transform: translate(-100%);
+            opacity: 0;
         }
     }
 

@@ -6,33 +6,27 @@
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">
-      <ion-list>
-        <ion-chip v-for="item in catagories" :key="item" @click="getCatagory(item)">
-          <ion-label>{{ item.replace("-"," ").toUpperCase()  }}</ion-label>
-        </ion-chip>
-      </ion-list>
-      <h1>{{opneCatagory}}</h1>
       <ion-list class="products">
-        <ProductCardVue  v-for="item in frontPageList" :key="item.id" :info="item" @click='navigateTo(item.id)'/>
+        <ProductCardVue v-for="item in frontPageList" :key="item.id" :info="item" @click='navigateTo(item.id)' />
       </ion-list>
     </ion-content>
   </ion-page>
 </template>
 
 <script lang="ts">
+import ProductCardVue from '@/components/ProductCardVue.vue';
+import { IonContent, IonHeader, IonList, IonPage, IonTitle, IonToolbar } from '@ionic/vue';
 import { defineComponent } from 'vue';
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonList, IonChip, IonLabel } from '@ionic/vue';
-import ProductCardVue from '@/components/ProductCardVue.vue'
 import { useRoute } from 'vue-router';
 export default defineComponent({
   name: 'Tab1Page',
-  components: { IonHeader, IonToolbar, IonTitle, IonContent, IonPage, IonList, IonChip, IonLabel, ProductCardVue },
+  components: { IonHeader, IonToolbar, IonTitle, IonContent, IonPage, IonList, ProductCardVue },
   data() {
-    return ({ catagories: [], counter: 0, frontPageList: [], opneCatagory:"All Products" })
+    return ({ counter: 0, frontPageList: [], opneCatagory: "All Products" })
   },
-  setup(){
+  setup() {
     const router = useRoute()
-    return({router})
+    return ({ router })
   },
   methods: {
     getData() {
@@ -52,17 +46,7 @@ export default defineComponent({
           this.frontPageList = final
         })
     },
-    getCatagory(catagory: string) {
-      fetch(`https://dummyjson.com/products/category/${catagory}`)
-        .then(res => res.json())
-        .then((data:any)=>{
-          this.opneCatagory = catagory.replace("-"," ").toUpperCase()
-          const final = data.products.map((val: any) => val)
-          console.log(final)
-          this.frontPageList = final
-        });
-    },
-    navigateTo(data:any){
+    navigateTo(data: any) {
       this.$router.push(`/product/${data}`)
     }
   },
@@ -75,26 +59,29 @@ export default defineComponent({
 
 <style scoped>
 .products {
-  padding:3em;
+  padding: 3em;
   padding-top: 1em;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   grid-gap: 3em;
 }
-@media screen and (max-width:800px){
-  ion-list{
-    display:none;
+
+@media screen and (max-width:800px) {
+  ion-list {
+    display: none;
   }
+
   .products {
-  padding:3em;
-  padding-top: 1em;
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-gap: 3em;
-} 
+    padding: 3em;
+    padding-top: 1em;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: 3em;
+  }
 }
-h1{
-  padding:1em;
+
+h1 {
+  padding: 1em;
   text-align: center;
 }
 </style>

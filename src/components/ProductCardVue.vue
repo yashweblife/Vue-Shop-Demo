@@ -40,21 +40,24 @@ export default defineComponent({
         display:flex;
         position: relative;
         h1{
+            text-align: center;
             font-size: 1em;
-            padding-left:2em;
+            width: 100%;
         }
         p{
             position: absolute;
-            top:-100%;
-            right:3em;
+            top:-50%;
+            left:50%;
+            transform: translate(-50%,-50%);
             display: flex;
             align-items: center;
             justify-content: center;
             width:4rem; 
-            aspect-ratio: 1/1;
-            border-radius: 50%;
-            background-color: rgb(255, 220, 79);
-            color:black;
+            aspect-ratio: 2/1;
+            border-top-left-radius: 1em;
+            border-top-right-radius: 1em;
+            box-shadow: 0 0 1em 0 rgba(0,0,0,0.6);
+            background-color: rgb(32,32,32);
             &::before{
                 content:"$"
             }
